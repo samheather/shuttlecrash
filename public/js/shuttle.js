@@ -1,4 +1,4 @@
-function Shuttle(world) {
+function Shuttle(world, gs) {
 	this.type = 'shuttle';
 	// constants
 	var length = 65;
