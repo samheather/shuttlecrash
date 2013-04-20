@@ -4,11 +4,10 @@ function Shuttle(world, gs) {
 	var length = 65;
 	var wingSpan = 30;
 	var airBrakeOnDecent = 10;
-	var attackAngle = 20;
+	var attackAngle = 45;
 	var surfaceArea = 100;
 	var scaleFactor = 0.2;
 	// position
-	
 	
 	// Andrei's shit :)
 	var MAX_VY = 20;
@@ -29,6 +28,8 @@ function Shuttle(world, gs) {
 	function() {
 		p.action("fall");
 	}, scaleFactor);
+	
+	p.angle(attackAngle*Math.PI/180);
 	
 	/* Concurrency stuff */
 		
