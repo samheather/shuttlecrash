@@ -19,7 +19,7 @@ function World(gs) {
 	
 	// defines a simple screen-relative camera method
 	this.camera = function(pos) {
-		return [pos[0] - this.cpos + gs.width / 2, pos[1]];
+		return [pos[0] /*- this.cpos + gs.width / 2*/, pos[1]];
 	}
 	
 	// called when we are first added
