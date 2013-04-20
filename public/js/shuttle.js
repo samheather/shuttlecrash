@@ -4,7 +4,7 @@ function Shuttle(world, gs) {
 	var length = 65;
 	var wingSpan = 30;
 	var airBrakeOnDecent = 10;
-	var attackAngle = 45;
+	var attackAngle = 30;
 	var surfaceArea = 100;
 	var scaleFactor = 0.2;
 	// position
@@ -63,7 +63,13 @@ function Shuttle(world, gs) {
 				pos[1] += vy;
 			} else if(vy> gs.height-pos[1]-world.groundHeight){
 				pos[1] = gs.height-world.groundHeight;
-			} else {
+				vy=0;
+			} else if (attackAngle != 0){
+				console.log("Lower Angle");
+				attackAngle -= 5;
+				p.angle(attackAngle*Math.PI/180);
+			}
+			else {
 				console.log("Don't Animate - shuttle hit ground.");
 			}
 			
