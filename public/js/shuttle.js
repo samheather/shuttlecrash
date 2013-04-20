@@ -56,7 +56,7 @@ function Shuttle(world, gs) {
 			this.updateanimation();
 			pos[0] += vx/10;
 			pos[1] += vy/10;
-			if (pos[1] + p.height < gs.height) _
+			if (pos[1] + p.height < gs.height) {
 				p.update();
 			}
 			if (pos[1] > p.height + gs.height || pos[1] < 0) {
