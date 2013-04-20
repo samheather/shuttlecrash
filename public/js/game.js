@@ -30,3 +30,9 @@ JSGameSoup.ready(function () {
 	gs.launch();
 	
 });
+
+function hasWon() {
+	shuttleCurrentX = Shuttle.pos[0];
+	console.log(shuttleCurrentX);
+	hasWon();
+}
