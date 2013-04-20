@@ -22,11 +22,11 @@ function Shuttle(world, gs) {
 	var vy = 0;
 	// sprite which represents the player
 	var p = new Sprite(["center", "bottom"], {
-		stand: [["assets/spaceShuttle.png", 0],]
+		fall: [["assets/spaceShuttle.png", 0]]
 	},
 	// callback gets called when everything is loaded
 	function() {
-		p.action("stand");
+		p.action("fall");
 	});
 	
 	/* Concurrency stuff */
@@ -41,11 +41,11 @@ function Shuttle(world, gs) {
 				p.action("fall");
 			} else {
 				if (vx >= WALK_VX) {
-					p.action("walk right");
+// 					p.action("walk right");
 				} else if (vx <= -WALK_VX) {
-					p.action("walk left");
+// 					p.action("walk left");
 				} else {
-					p.action("stand");
+		//			p.action("stand");
 				}
 			}
 		}
