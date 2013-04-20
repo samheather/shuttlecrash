@@ -11,6 +11,10 @@ div {
 	left: -1px;
 }
 
+#surface {
+	height: 1000px;
+}
+
 * {
 	/* disable callout sheet */
 	-webkit-touch-callout: none;
