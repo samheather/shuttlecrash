@@ -11,8 +11,9 @@ div {
 	left: -1px;
 }
 
-#surface {
-	height: 1000px;
+.web #surface {
+	height: 320px;
+	width:  1152px;
 }
 
 * {
