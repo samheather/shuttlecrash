@@ -3,13 +3,11 @@
 */
 function ShuttleCrash(gs) {
 	var d = new Date;
-	// vertical separation of platform layers
-	X_SEPARATION = 300;
-	Y_SEPARATION = 150;	
 	
 	// preload all of the sprites we will use in this game
 	Sprite.preload([
 			"assets/spaceShuttle.png",
+			"assets/grass.bmp"
 		],
 		// create the world
 		function() { gs.addEntity(new World(gs)); }
