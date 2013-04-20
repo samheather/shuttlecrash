@@ -22,7 +22,7 @@ function Shuttle(gs) {
 	var vy = 0;
 	// sprite which represents the player
 	var p = new Sprite(["center", "bottom"], {
-		fall: [["assets/spaceShuttle.png", 0]]
+		fal1l: [["assets/spaceShuttle.png", 0]], fall:[["assets/spaceShuttleFlame1.png",0], ["assets/spaceShuttleFlame2.png",1], ["assets/spaceShuttleFlame3.png",2], ["assets/spaceShuttleFlame4.png",3]]
 	},
 	// callback gets called when everything is loaded
 	function() {

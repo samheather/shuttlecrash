@@ -38,3 +38,9 @@ JSGameSoup.ready(function () {
 	ShuttleCrash(gs);
 	gs.launch();
 });
+
+function hasWon() {
+	shuttleCurrentX = Shuttle.pos[0];
+	console.log(shuttleCurrentX);
+	hasWon();
+}
