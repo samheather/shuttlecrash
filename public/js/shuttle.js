@@ -54,14 +54,14 @@ function Shuttle(world, gs) {
 		// update the player's position every frame
 		this.update = function() {
 			console.log(gs.height);
-			if (pos[1]+vy < gs.height-gs.groundHeight) {
+			if (pos[1]+vy < gs.height-world.groundHeight) {
 				console.log("Animate");
 				vy = Math.min(vy + world.gravity, MAX_VY);
 				this.updateanimation();
 				pos[0] += vx;
 				pos[1] += vy;
-			} else if(vy> gs.height-pos[1]-gs.groundHeight){
-				pos[1] = gs.height;
+			} else if(vy> gs.height-pos[1]-world.groundHeight){
+				pos[1] = gs.height-world.groundHeight;
 			} else {
 				console.log("Don't Animate - shuttle hit ground.");
 			}
