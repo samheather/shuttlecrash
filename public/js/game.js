@@ -1,16 +1,25 @@
 /**
 	@class Example code in the form of a simple "falling game" where the player must try to stay on the screen as platforms move past them upward.
 */
-function ShuttleCrash(gs) {
-	var d = new Date;
-	
+function ShuttleCrash(gs) {	
 	// preload all of the sprites we will use in this game
+	
+	
 	Sprite.preload([
 			"assets/spaceShuttle.png",
 			"assets/grass.bmp"
 		],
 		// create the world
-		function() { gs.addEntity(new World(gs)); }
+		function() { 
+			world = new World(gs);
+			shuttle = new Shuttle(gs);
+			
+			world.setShuttle(shuttle);
+			shuttle.setWorld(world);
+			
+			gs.addEntity(world); 
+			gs.addEntity(shuttle);
+		}
 	);
 }
 
@@ -28,5 +37,4 @@ JSGameSoup.ready(function () {
 	var gs = new JSGameSoup(newcanvas, 30);
 	ShuttleCrash(gs);
 	gs.launch();
-	
 });

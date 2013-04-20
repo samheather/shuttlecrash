@@ -15,7 +15,10 @@ function World(gs) {
 	
 	// background colour
 	var bg = 'rgba(240, 255, 255, 1.0)';
-	var shuttle = new Shuttle(this, gs);
+	
+	this.setShuttle = function(shuttle) {
+		this.shuttle = shuttle;
+	}
 	
 	// defines a simple screen-relative camera method
 	this.camera = function(pos) {

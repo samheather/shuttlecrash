@@ -1,4 +1,4 @@
-function Shuttle(world, gs) {
+function Shuttle(gs) {
 	this.type = 'shuttle';
 	// constants
 	var length = 65;
@@ -30,6 +30,10 @@ function Shuttle(world, gs) {
 	}, scaleFactor);
 	
 	p.angle(attackAngle*Math.PI/180);
+	
+	this.setWorld = function(world) {
+		this.world = world;
+	}
 	
 	/* Concurrency stuff */
 		
