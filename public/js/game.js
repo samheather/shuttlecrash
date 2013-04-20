@@ -30,4 +30,5 @@ JSGameSoup.ready(function () {
 	var gs = new JSGameSoup(newcanvas, 30);
 	ShuttleCrash(gs);
 	gs.launch();
+	
 });
