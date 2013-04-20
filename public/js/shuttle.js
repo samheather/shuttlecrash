@@ -54,8 +54,8 @@ function Shuttle(world, gs) {
 		this.update = function() {
 			vy = Math.min(vy + world.gravity, MAX_VY);
 			this.updateanimation();
-			pos[0] += vx;
-			pos[1] += vy;
+			pos[0] += vx/10;
+			pos[1] += vy/10;
 			p.update();
 			if (pos[1] > p.height + gs.height || pos[1] < 0) {
 				document.getElementById("gameover").style.paddingTop = gs.height / 2 - 100;
