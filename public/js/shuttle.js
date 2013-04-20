@@ -27,7 +27,7 @@ function Shuttle(world, gs) {
 	// callback gets called when everything is loaded
 	function() {
 		p.action("fall");
-	});
+	}, 0.2);
 	
 	/* Concurrency stuff */
 		
