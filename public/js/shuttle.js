@@ -59,10 +59,13 @@ function Shuttle(world, gs) {
 			if (pos[1] + p.height < gs.height) {
 				p.update();
 			}
-			if (pos[1] > p.height + gs.height || pos[1] < 0) {
-				document.getElementById("gameover").style.paddingTop = gs.height / 2 - 100;
-				document.getElementById("gameover").style.display = "block";
+			else {
+				console.log("Didn't Animate");
 			}
+// 			if (pos[1] > p.height + gs.height || pos[1] < 0) {
+// 				document.getElementById("gameover").style.paddingTop = gs.height / 2 - 100;
+// 				document.getElementById("gameover").style.display = "block";
+// 			}
 		}
 		
 		/* collision stuff */
