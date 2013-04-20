@@ -16,7 +16,7 @@ function ShuttleCrash(gs) {
 			
 			world.setShuttle(shuttle);
 			shuttle.setWorld(world);
-			
+						
 			gs.addEntity(world); 
 			gs.addEntity(shuttle);
 		}
@@ -38,9 +38,3 @@ JSGameSoup.ready(function () {
 	ShuttleCrash(gs);
 	gs.launch();
 });
-
-function hasWon() {
-	shuttleCurrentX = Shuttle.pos[0];
-	console.log(shuttleCurrentX);
-	hasWon();
-}
