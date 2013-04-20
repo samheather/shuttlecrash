@@ -6,6 +6,7 @@ function Shuttle(world, gs) {
 	var airBrakeOnDecent = 10;
 	var attackAngle = 20;
 	var surfaceArea = 100;
+	var scaleFactor = 0.2;
 	// position
 	
 	
@@ -27,7 +28,7 @@ function Shuttle(world, gs) {
 	// callback gets called when everything is loaded
 	function() {
 		p.action("fall");
-	}, 0.2);
+	}, scaleFactor);
 	
 	/* Concurrency stuff */
 		
@@ -52,16 +53,29 @@ function Shuttle(world, gs) {
 		
 		// update the player's position every frame
 		this.update = function() {
-			vy = Math.min(vy + world.gravity, MAX_VY);
-			this.updateanimation();
-			pos[0] += vx/10;
-			pos[1] += vy/10;
-			if (pos[1] + p.height < gs.height) {
-				p.update();
+			console.log(gs.height);
+			if (pos[1]+vy < gs.height-gs.groundHeight) {
+				console.log("Animate");
+				vy = Math.min(vy + world.gravity, MAX_VY);
+				this.updateanimation();
+				pos[0] += vx;
+				pos[1] += vy;
+			} else if(vy> gs.height-pos[1]-gs.groundHeight){
+				pos[1] = gs.height;
+			} else {
+				console.log("Don't Animate - shuttle hit ground.");
 			}
-			else {
-				console.log("Didn't Animate");
-			}
+			
+			
+			
+			p.update()			
+			
+// 			console.log(pos[1],p.height,gs.height);
+// 			
+// 			if (pos[1] + p.height*scaleFactor < gs.height) {
+// 				console.log("Did Animate");
+// 				p.update();
+// 			}
 // 			if (pos[1] > p.height + gs.height || pos[1] < 0) {
 // 				document.getElementById("gameover").style.paddingTop = gs.height / 2 - 100;
 // 				document.getElementById("gameover").style.display = "block";
