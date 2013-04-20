@@ -7,6 +7,15 @@ function Shuttle(world, gs) {
 	var attackAngle = 20;
 	var surfaceArea = 100;
 	// position
+	
+	
+	// Andrei's shit :)
+	var MAX_VY = 20;
+ 	var WALK_VX = 3;
+  	var WALK_FRAMES = 3;
+  	var FALL_FRAMES = 2;
+ 
+ 
 	var pos = this.pos = [gs.width / 2, gs.height / 2];
 	// velocity
 	var vx = 0;
