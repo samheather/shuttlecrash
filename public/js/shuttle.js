@@ -1,5 +1,27 @@
 function Shuttle(gs) {
 	this.type = 'shuttle';
+	
+	statemachine(this);
+	
+	function init() {
+		this.set_state("stopped");
+	}
+	
+	function stopped_init() {
+		p.action("stopped");
+	}
+	
+	var p = new Sprite(
+		["center", "bottom"], 
+		{
+			stopped: [["assets/spaceShuttle.png", 0]], 
+			fall:[["assets/spaceShuttleFlame1.png",0], ["assets/spaceShuttleFlame2.png",1], ["assets/spaceShuttleFlame3.png",2], ["assets/spaceShuttleFlame4.png",3]]
+		}, 
+		null, 
+		scaleFactor);
+		
+	
+	
 	// constants
 	var length = 65;
 	var wingSpan = 30;
@@ -7,10 +29,10 @@ function Shuttle(gs) {
 	var attackAngle = 30;
 	var surfaceArea = 100;
 	var scaleFactor = 0.2;
-	// position
 	
 	// Andrei's shit :)
 	var MAX_VY = 20;
+	var MAX_VX = 100;
  	var WALK_VX = 3;
   	var WALK_FRAMES = 3;
   	var FALL_FRAMES = 2;
@@ -21,13 +43,7 @@ function Shuttle(gs) {
 	var vx = 0;
 	var vy = 0;
 	// sprite which represents the player
-	var p = new Sprite(["center", "bottom"], {
-		fal1l: [["assets/spaceShuttle.png", 0]], fall:[["assets/spaceShuttleFlame1.png",0], ["assets/spaceShuttleFlame2.png",1], ["assets/spaceShuttleFlame3.png",2], ["assets/spaceShuttleFlame4.png",3]]
-	},
-	// callback gets called when everything is loaded
-	function() {
-		p.action("fall");
-	}, scaleFactor);
+	
 	
 	p.angle(attackAngle*Math.PI/180);
 	
@@ -56,21 +72,31 @@ function Shuttle(gs) {
 			}
 		}
 		
+		this.landed = false;
+		
 		// update the player's position every frame
-		this.update = function() {
-			console.log(gs.height);
-			if (pos[1]+vy < gs.height-world.groundHeight) {
+		this.update = function() {							
+			vy = Math.min(vy + (world.gravity), MAX_VY);
+			vx = Math.min(vx + 0.4, MAX_VX);
+
+			var angleOffsetFromGround = 2/40*p.get_size()[0]*Math.sin(attackAngle*Math.PI/180);
+			console.log("-------")
+			
+			console.log(angleOffsetFromGround);
+			console.log(gs.height-pos[1]-world.groundHeight-angleOffsetFromGround);
+			
+			if(vy > gs.height-pos[1]-world.groundHeight-angleOffsetFromGround && !this.landed){
+				pos[1] = gs.height-world.groundHeight-angleOffsetFromGround;
+				this.landed = true;
+			} else if (vy < gs.height-world.groundHeight-pos[1]-angleOffsetFromGround) {
 				console.log("Animate");
-				vy = Math.min(vy + world.gravity, MAX_VY);
 				this.updateanimation();
 				pos[0] += vx;
 				pos[1] += vy;
-			} else if(vy> gs.height-pos[1]-world.groundHeight){
-				pos[1] = gs.height-world.groundHeight;
-				vy=0;
-			} else if (attackAngle != 0){
+			} else  if (attackAngle != 0){
+				p.action("stopped");
 				console.log("Lower Angle");
-				attackAngle -= 5;
+				attackAngle -= 2.5;
 				p.angle(attackAngle*Math.PI/180);
 			}
 			else {
