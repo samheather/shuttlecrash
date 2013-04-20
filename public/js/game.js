@@ -250,29 +250,7 @@ function ExampleGame(gs) {
 	
 	// preload all of the sprites we will use in this game
 	Sprite.preload([
-			"img/character-fall-1.png",
-			"img/character-fall-2.png",
-			"img/character-stand.png",
-			"img/character-walk-left-1.png",
-			"img/character-walk-left-2.png",
-			"img/character-walk-left-3.png",
-			"img/character-walk-right-1.png",
-			"img/character-walk-right-2.png",
-			"img/character-walk-right-3.png",
-			"img/makeleft.sh",
-			"img/platform-1.png",
-			"img/platform-2.png",
-			"img/platform-3.png",
-			"img/platform-4.png",
-			"img/prop-bench.png",
-			"img/prop-lamp.png",
-			"img/prop-tyre.png",
-			"img/tree-1.png",
-			"img/tree-2.png",
-			"img/tree-3.png",
-			"img/tree-pine-1.png",
-			"img/tree-pine-2.png",
-			"img/tree-pine-3.png",
+			"assets/spaceShuttle.png",
 		],
 		// create the world
 		function() { gs.addEntity(new World()); }
