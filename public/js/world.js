@@ -14,7 +14,8 @@ function World(gs) {
 	this.groundHeight = 40;
 	
 	// background colour
-	var bg = 'rgba(240, 255, 255, 1.0)';
+	
+	statemachine(this);
 	
 	this.setShuttle = function(shuttle) {
 		this.shuttle = shuttle;
@@ -27,13 +28,19 @@ function World(gs) {
 	
 	// called when we are first added
 	this.init = function() {
-		gs.addEntity(shuttle);
+		this.set_state("stopped");
 	}
 	
 	// called every frame to draw the background
-	this.draw = function(c,gs) {
-
-		gs.background(bg);
+	this.stopped_draw = function(c,gs) {
+		this.running_draw(c,gs);
+		c.fillStyle = "rgba(0,0,0,0.5)";
+		c.fillRect(0,0, gs.width, gs.height);
+		c.fill();
+	}
+	
+	this.running_draw = function(c,gs) {
+		gs.background('rgba(240, 255, 255, 1.0)');
 		img = new Image();
 		img.src= "assets/grass.bmp";
 		c.fillStyle= c.createPattern(img, "repeat");
@@ -42,11 +49,15 @@ function World(gs) {
 	}
 	
 	// called every frame to run the game, collisions, etc.
-	this.update = function() {
+	this.running_update = function() {
 		// update the camera position
 		this.cpos += (shuttle.pos[0] - this.cpos) * 0.5;
 		// increment the total distance travelled
 		this.distance += this.upspeed;
+	}
+	
+	this.stopped_update = function() {
+		//this.running_update();
 	}
 	
 	/* mouse/finger detection */
