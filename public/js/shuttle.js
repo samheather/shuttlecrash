@@ -17,9 +17,8 @@ function Shuttle(gs) {
 	var surfaceArea = 100;
 		
 	// velocity
-	var vx = 0;
-	var vy = 0;
-	var pos = this.pos = [0,0];
+	var vx = this.vx =  0;
+	var vy = this.vy= 0;
 	
 	var sprites = new Sprite(
 		["center", "bottom"], 
@@ -29,6 +28,9 @@ function Shuttle(gs) {
 		}, 
 		function() {}, 
 		scaleFactor);
+	sprites.action("stopped");
+	
+	pos= this.pos=  [sprites.get_size()[0]/2+180, sprites.get_size()[1]+100];	
 	
 	statemachine(this);
 	
@@ -39,7 +41,7 @@ function Shuttle(gs) {
 	
 	this.init = function () {
 		sprites.action("stopped");
-		pos= [sprites.get_size()[0]/2+80, sprites.get_size()[1]];
+		//pos= this.pos=  [sprites.get_size()[0]/2+80, sprites.get_size()[1]];
 		sprites.angle(attackAngle*Math.PI/180);
 		//this.set_state("stopped"); @TODO after menu impelementation
 		this.set_state("falling");
@@ -75,7 +77,7 @@ function Shuttle(gs) {
 		sprites.angle(attackAngle*Math.PI/180);
 		sprites.update(); //posible performance issue			
 
-		sprites.draw(c, world.camera(pos));
+		sprites.draw(c ,world.camera());
 	}
 				
 	this.falling_update = function() {		
