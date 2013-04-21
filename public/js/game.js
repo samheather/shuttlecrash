@@ -6,7 +6,8 @@ function ShuttleCrash(gs) {
 		
 	Sprite.preload([
 			"assets/spaceShuttle.png",
-			"assets/grass.bmp"
+			"assets/grass.bmp",
+			"assets/iis.png"
 		],
 		function() { 
 			ShuttleCrash.menu_init = function() {
