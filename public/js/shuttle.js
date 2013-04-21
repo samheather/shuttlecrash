@@ -1,186 +1,118 @@
 function Shuttle(gs) {
 	this.type = 'shuttle';
 	
-	statemachine(this);
-	
-	function init() {
-		this.set_state("stopped");
-	}
-	
-	function stopped_init() {
-		p.action("stopped");
-	}
-	
-	var p = new Sprite(
-		["center", "bottom"], 
-		{
-			stopped: [["assets/spaceShuttle.png", 0]], 
-			fall:[["assets/spaceShuttleFlame1.png",0], ["assets/spaceShuttleFlame2.png",1], ["assets/spaceShuttleFlame3.png",2], ["assets/spaceShuttleFlame4.png",3]]
-		}, 
-		null, 
-		scaleFactor);
-		
-	
-	
 	// constants
+	var scaleFactor = 0.2;
+	var MAX_VY = 20;
+	var MAX_VX = 100;
+	var groundDrag = 0.2;
+	var attackAngleDescent = -2;
+	
+	//variables
 	var length = 65;
 	var wingSpan = 30;
 	var airBrakeOnDecent = 10;
-	var attackAngle = 30;
+	var attackAngle = -30;
 	var surfaceArea = 100;
-	var scaleFactor = 0.2;
-	
-	// Andrei's shit :)
-	var MAX_VY = 20;
-	var MAX_VX = 100;
- 	var WALK_VX = 3;
-  	var WALK_FRAMES = 3;
-  	var FALL_FRAMES = 2;
- 
- 
-	var pos = this.pos = [gs.width / 2, gs.height / 2];
+		
 	// velocity
 	var vx = 0;
 	var vy = 0;
-	// sprite which represents the player
+	var pos = this.pos = [0,0];
 	
+	var sprites = new Sprite(
+		["center", "bottom"], 
+		{
+			stopped: [["assets/spaceShuttle.png", 0]], 
+			falling:[["assets/spaceShuttleFlame1.png",0], ["assets/spaceShuttleFlame2.png",1], ["assets/spaceShuttleFlame3.png",2], ["assets/spaceShuttleFlame4.png",3]]
+		}, 
+		function() {}, 
+		scaleFactor);
 	
-	p.angle(attackAngle*Math.PI/180);
+	statemachine(this);
 	
 	this.setWorld = function(world) {
 		this.world = world;
 	}
 	
-	/* Concurrency stuff */
-		
-		// draw the player's sprite every frame
-		this.draw = function(c) {
-			p.draw(c, world.camera(pos));
-		}
-		
-		this.updateanimation = function() {
-			if (vy > world.gravity * 2) {
-				p.action("fall");
-			} else {
-				if (vx >= WALK_VX) {
-// 					p.action("walk right");
-				} else if (vx <= -WALK_VX) {
-// 					p.action("walk left");
-				} else {
-		//			p.action("stand");
-				}
-			}
-		}
-		
-		this.landed = false;
-		
-		// update the player's position every frame
-		this.update = function() {							
-			vy = Math.min(vy + (world.gravity), MAX_VY);
-			vx = Math.min(vx + 0.4, MAX_VX);
-
-			var angleOffsetFromGround = 2/40*p.get_size()[0]*Math.sin(attackAngle*Math.PI/180);
-			console.log("-------")
-			
-			console.log(angleOffsetFromGround);
-			console.log(gs.height-pos[1]-world.groundHeight-angleOffsetFromGround);
-			
-			if(vy > gs.height-pos[1]-world.groundHeight-angleOffsetFromGround && !this.landed){
-				pos[1] = gs.height-world.groundHeight-angleOffsetFromGround;
-				this.landed = true;
-			} else if (vy < gs.height-world.groundHeight-pos[1]-angleOffsetFromGround) {
-				console.log("Animate");
-				this.updateanimation();
-				pos[0] += vx;
-				pos[1] += vy;
-			} else  if (attackAngle != 0){
-				p.action("stopped");
-				console.log("Lower Angle");
-				attackAngle -= 2.5;
-				p.angle(attackAngle*Math.PI/180);
-			}
-			else {
-				console.log("Don't Animate - shuttle hit ground.");
-			}
-			
-			
-			
-			p.update()			
-			
-// 			console.log(pos[1],p.height,gs.height);
-// 			
-// 			if (pos[1] + p.height*scaleFactor < gs.height) {
-// 				console.log("Did Animate");
-// 				p.update();
-// 			}
-// 			if (pos[1] > p.height + gs.height || pos[1] < 0) {
-// 				document.getElementById("gameover").style.paddingTop = gs.height / 2 - 100;
-// 				document.getElementById("gameover").style.display = "block";
-// 			}
-		}
-		
-		/* collision stuff */
-		
-		// return the bounding box of our sprite for the collision test
-		this.get_collision_aabb = function() {
-			return p.aabb(pos);
-		}
-		
-		/* input events stuff */
-		this.keyDown_37 = function () {
-			this.updateanimation();
-			vx = -WALK_VX;
-		}
-		
-		this.keyUp_37 = this.keyUp_39 = function() {
-			this.updateanimation();
-			vx = 0;
-		}
-		
-		this.keyDown_39 = function () {
-			this.updateanimation();
-			vx = WALK_VX;
-		}
-		
-		// basic comparison function
-		var cmp = function(x, y){ return x[0] < y[0] ? 1 : x[0] > y[0] ? -1 : 0; };
-		
-		// if the axis aligned bouding box of this entity collides with another
-		this.collide_aabb = function(who) {
-			if (who.type == 'platform') {
-				var ab = this.get_collision_aabb();
-				var bb = who.get_collision_aabb();
-				
-				var sides = [
-						[bb[1] - (ab[1] + ab[3]), 1, 1],
-						[bb[0] - (ab[0] + ab[2]), 0, 1],
-						[ab[0] - (bb[0] + bb[2]), 0, -1],
-						[ab[1] - (bb[1] + bb[3]), 1, -1]
-				];
-				sides.sort(cmp);
-				var d = sides[0];
-				// hit a vertical side
-				if (d[1]) {
-					if (pos[0] > bb[0] + bb[2]) {
-						pos[0] += WALK_VX;
-					} else if (pos[0] < bb[0]) {
-						pos[0] -= WALK_VX;
-					} else {
-						pos[1] = bb[1];
-						vy = 0;
-						this.updateanimation();
-					}
-				} else {
-					// horizontal side
-					if (pos[0] > bb[0] + bb[2]) {
-						pos[0] += WALK_VX;
-					} else if (pos[0] < bb[0]) {
-						pos[0] -= WALK_VX;
-					}
-				}
-			}
-		}
-		/*this.keyDown = function (keyCode) {
-			console.log(keyCode);
-		}*/
+	
+	this.init = function () {
+		sprites.action("stopped");
+		pos= [sprites.get_size()[1]/2+100, gs.height / 2];
+		sprites.angle(attackAngle*Math.PI/180);
+		//this.set_state("stopped"); @TODO after menu impelementation
+		this.set_state("falling");
 	}
+	
+	this.stopped_init = function() {
+		sprites.action("stopped");
+		sprites.angle(attackAngle*Math.PI/180);
+	}
+	
+	this.falling_init = function() {
+		sprites.action("falling");
+		sprites.angle(attackAngle*Math.PI/180);
+	}
+	
+	this.landed_init = function() {
+		sprites.action("stopped");
+		sprites.angle(attackAngle*Math.PI/180);
+	}
+	
+	this.rolling_init = function() {
+		//OPEN PARACHUTES HERE
+		sprites.action("stopped");
+	}
+	
+	this.landed_init = function() {
+		sprites.action("stopped");
+		//call game state machine for landing @TODO
+	}
+	
+		
+	this.draw = function(c) {
+		sprites.angle(attackAngle*Math.PI/180);
+		sprites.update(); //posible performance issue			
+
+		sprites.draw(c, world.camera(pos));
+	}
+				
+	this.falling_update = function() {		
+		vy = Math.min(vy + (world.gravity), MAX_VY);
+		vx = Math.min(vx + 0.4, MAX_VX); //this should take into acount air drag and things @TODO
+
+		var angleOffsetFromGround = 2/40*sprites.get_size()[0]*Math.sin(attackAngle*Math.PI/180); //@TODO it's still not a proper offset
+
+		
+		if(vy > gs.height-pos[1]-world.groundHeight-angleOffsetFromGround){
+			pos[1] = gs.height-world.groundHeight-angleOffsetFromGround;
+			this.set_state("rolling");
+		} else if (vy < gs.height-world.groundHeight-pos[1]-angleOffsetFromGround) {
+			pos[0] += vx;
+			pos[1] += vy;
+		} 
+	}
+		
+	this.rolling_update = function() {
+		vy = 0;
+		
+		if (attackAngle > attackAngleDescent) { //it is reversed because it's negative
+			attackAngle = 0;
+		} else {
+			attackAngle -= attackAngleDescent;
+		}
+
+		if(vx > groundDrag) {
+			vx -= groundDrag
+		} else {
+			vx =0;
+		}
+		
+		pos[0] += vx;
+				
+		if(vx == 0 && attackAngle == 0) {
+			this.set_state("landed");
+		}
+	}
+
+}
