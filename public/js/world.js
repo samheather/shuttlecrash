@@ -1,11 +1,11 @@
 /* World */
 function World(gs) {
 	// how much gravity to apply to objects each frame
-	this.gravity = 0.4;
+	this.gravity = 0.1;
 	// how fast the props etc. should move upwards
 	//this.upspeed = 1; //0.09;
 	// where the camera is centered
-	this.cpos = gs.width / 2;
+	this.cpos = 200;
 	// how far has the user progressed rightwards?
 	this.distance = 0;
 	// last time we created new platforms
@@ -14,7 +14,7 @@ function World(gs) {
 	this.groundHeight = 40;
 	
 	// Station offset - for lowering the spacestation from the top:
-	var stationOffset = 0;
+	var stationOffset = 200;
 	
 	// background colour
 	
@@ -25,14 +25,15 @@ function World(gs) {
 	}
 	
 	// defines a simple screen-relative camera method
-	this.camera = function(pos) {
-		return [pos[0] /*- this.cpos + gs.width / 2*/, pos[1]];
+	this.camera = function() {
+		return [shuttle.pos[0]-this.cpos+200, shuttle.pos[1]];
 	}
 	
 	// called when we are first added
 	this.init = function() {
 		//this.set_state("stopped"); @TODO after menu implementation
 		this.set_state("running");
+		//this.cpos=200;
 	}
 	
 	// called every frame to draw the background
@@ -41,31 +42,32 @@ function World(gs) {
 	}
 	
 	this.running_draw = function(c,gs) {
-		gs.background('rgba(240, 255, 255, 1.0)');
+		gs.background('rgba( 240, 255, 255, 1.0)');
+		console.log(this.cpos);
+		c.translate(-this.cpos,0);
+
 		img = new Image();
 		img.src= "assets/grass.bmp";
 		c.fillStyle= c.createPattern(img, "repeat");
-        c.fillRect(0,gs.height-this.groundHeight,gs.width,this.groundHeight);
+        c.fillRect(this.cpos,gs.height-this.groundHeight,gs.width,this.groundHeight);
         c.fill();
         
         iisImg = new Image();
         iisImg.src = "assets/iis.png";
         c.fillStyle = c.createPattern(iisImg, "repeat");
-//         c.scale = 0.5;
-//         iisImg.width = iisImg.width * 0.5;			// WHY DOES THIS STUFF WORK?
-// 		iisImg.height = iisImg.height * 0.5;
-		c.translate(5,5+stationOffset);
-        c.fillRect(0,0,200,120);
-		c.translate(5,5+stationOffset);
+		//c.translate(0,0);
+        c.fillRect(5+stationOffset,5,200,120);
+		//c.translate(0,0);
         c.fill();
 	}
 	
 	// called every frame to run the game, collisions, etc.
 	this.running_update = function() {
 		// update the camera position
-		this.cpos += (shuttle.pos[0] - this.cpos) * 0.5;
+		this.cpos += shuttle.pos[0]-this.cpos;
+		
 		// increment the total distance travelled
-		this.distance += this.upspeed;
+		//this.distance += this.upspeed;
 	}
 	
 	this.stopped_update = function() {

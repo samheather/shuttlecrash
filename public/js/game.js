@@ -12,6 +12,8 @@ function ShuttleCrash(gs) {
 			"assets/spaceShuttleFlame4.png",
 			"assets/iis.png",
 			"assets/grass.bmp"
+
+
 		],
 		function() { 
 			ShuttleCrash.menu_init = function() {
