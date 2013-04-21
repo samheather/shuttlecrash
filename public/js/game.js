@@ -1,16 +1,27 @@
 /**
 	@class Example code in the form of a simple "falling game" where the player must try to stay on the screen as platforms move past them upward.
 */
-function ShuttleCrash(gs) {	
-	// preload all of the sprites we will use in this game
-	
-	
+function ShuttleCrash(gs) {		
+	statemachine(this);
+		
 	Sprite.preload([
 			"assets/spaceShuttle.png",
 			"assets/grass.bmp"
 		],
-		// create the world
 		function() { 
+			ShuttleCrash.menu_init = function() {
+				//reset state after running
+				world.set_state("stopped");
+				shuttle.set_state("stopped");
+				//@TODO make menu enity and show it
+			}
+			
+			ShuttleCrash.running_init = function() {
+				world.set_state("running");
+				shuttle.set_state("falling");
+				//@TODO make menu entity and hide it
+			}
+			
 			world = new World(gs);
 			shuttle = new Shuttle(gs);
 			
@@ -18,7 +29,10 @@ function ShuttleCrash(gs) {
 			shuttle.setWorld(world);
 						
 			gs.addEntity(world); 
-			gs.addEntity(shuttle);
+			gs.addEntity(shuttle);	
+			
+			this.set_state("menu");
+		
 		}
 	);
 }
