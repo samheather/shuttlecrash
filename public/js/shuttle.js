@@ -39,7 +39,7 @@ function Shuttle(gs) {
 	
 	this.init = function () {
 		sprites.action("stopped");
-		pos= [sprites.get_size()[0]/2+20, sprites.get_size()[1]];
+		pos= [sprites.get_size()[0]/2+80, sprites.get_size()[1]];
 		sprites.angle(attackAngle*Math.PI/180);
 		//this.set_state("stopped"); @TODO after menu impelementation
 		this.set_state("falling");
