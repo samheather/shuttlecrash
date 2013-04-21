@@ -1,7 +1,7 @@
 /* World */
 function World(gs) {
 	// how much gravity to apply to objects each frame
-	this.gravity = 0.4;
+	this.gravity = 0.1;
 	// how fast the props etc. should move upwards
 	//this.upspeed = 1; //0.09;
 	// where the camera is centered
