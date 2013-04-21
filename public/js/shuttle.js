@@ -12,7 +12,8 @@ function Shuttle(gs) {
 	var length = 65;
 	var wingSpan = 30;
 	var airBrakeOnDecent = 10;
-	var attackAngle = -30;
+	var attackAngle = -19;
+	var previousAttackAngle = -19;
 	var surfaceArea = 100;
 		
 	// velocity
@@ -81,8 +82,7 @@ function Shuttle(gs) {
 		vy = Math.min(vy + (world.gravity), MAX_VY);
 		vx = Math.min(vx + 0.4, MAX_VX); //this should take into acount air drag and things @TODO
 
-		var angleOffsetFromGround = 2/40*sprites.get_size()[0]*Math.sin(attackAngle*Math.PI/180); //@TODO it's still not a proper offset
-
+		var angleOffsetFromGround =0.05*sprites.get_size()[0]*Math.sin(Math.abs(attackAngle*Math.PI/180));
 		
 		if(vy > gs.height-pos[1]-world.groundHeight-angleOffsetFromGround){
 			pos[1] = gs.height-world.groundHeight-angleOffsetFromGround;
@@ -99,8 +99,15 @@ function Shuttle(gs) {
 		if (attackAngle > attackAngleDescent) { //it is reversed because it's negative
 			attackAngle = 0;
 		} else {
-			attackAngle -= attackAngleDescent;
+			attackAngle -= attackAngleDescent;	
 		}
+		
+		var previousAngleOffsetFromGround =0.05*sprites.get_size()[0]*Math.sin(Math.abs(previousAttackAngle*Math.PI/180));
+		var angleOffsetFromGround =0.05*sprites.get_size()[0]*Math.sin(Math.abs(attackAngle*Math.PI/180));
+			
+		var currentOffsetFromGroundOffset = previousAngleOffsetFromGround - angleOffsetFromGround;
+					
+		previousAttackAngle = attackAngle;
 
 		if(vx > groundDrag) {
 			vx -= groundDrag
@@ -109,6 +116,7 @@ function Shuttle(gs) {
 		}
 		
 		pos[0] += vx;
+		pos[1] += currentOffsetFromGroundOffset
 				
 		if(vx == 0 && attackAngle == 0) {
 			this.set_state("landed");
