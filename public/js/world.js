@@ -28,15 +28,13 @@ function World(gs) {
 	
 	// called when we are first added
 	this.init = function() {
-		this.set_state("stopped");
+		//this.set_state("stopped"); @TODO after menu implementation
+		this.set_state("running");
 	}
 	
 	// called every frame to draw the background
 	this.stopped_draw = function(c,gs) {
 		this.running_draw(c,gs);
-		c.fillStyle = "rgba(0,0,0,0.5)";
-		c.fillRect(0,0, gs.width, gs.height);
-		c.fill();
 	}
 	
 	this.running_draw = function(c,gs) {
