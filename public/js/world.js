@@ -13,6 +13,9 @@ function World(gs) {
 	
 	this.groundHeight = 40;
 	
+	// Station offset - for lowering the spacestation from the top:
+	var stationOffset = 0;
+	
 	// background colour
 	
 	statemachine(this);
@@ -43,6 +46,17 @@ function World(gs) {
 		img.src= "assets/grass.bmp";
 		c.fillStyle= c.createPattern(img, "repeat");
         c.fillRect(0,gs.height-this.groundHeight,gs.width,this.groundHeight);
+        c.fill();
+        
+        iisImg = new Image();
+        iisImg.src = "assets/iis.png";
+        c.fillStyle = c.createPattern(iisImg, "repeat");
+//         c.scale = 0.5;
+//         iisImg.width = iisImg.width * 0.5;			// WHY DOES THIS STUFF WORK?
+// 		iisImg.height = iisImg.height * 0.5;
+		c.translate(5,5+stationOffset);
+        c.fillRect(0,0,200,120);
+		c.translate(5,5+stationOffset);
         c.fill();
 	}
 	
