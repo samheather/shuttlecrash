@@ -6,6 +6,11 @@ function ShuttleCrash(gs) {
 		
 	Sprite.preload([
 			"assets/spaceShuttle.png",
+			"assets/spaceShuttleFlame1.png",
+			"assets/spaceShuttleFlame2.png",
+			"assets/spaceShuttleFlame3.png",
+			"assets/spaceShuttleFlame4.png",
+			"assets/iis.png",
 			"assets/grass.bmp"
 		],
 		function() { 
@@ -13,23 +18,29 @@ function ShuttleCrash(gs) {
 				//reset state after running
 				world.set_state("stopped");
 				shuttle.set_state("stopped");
+				menu.set_state("open");
 				//@TODO make menu enity and show it
 			}
 			
 			ShuttleCrash.running_init = function() {
 				world.set_state("running");
 				shuttle.set_state("falling");
+				menu.set_state("closed");
 				//@TODO make menu entity and hide it
 			}
 			
 			world = new World(gs);
 			shuttle = new Shuttle(gs);
+			menu = new Menu(gs);
 			
 			world.setShuttle(shuttle);
 			shuttle.setWorld(world);
+			menu.setShuttle(shuttle);
+			menu.setWorld(world);
 						
 			gs.addEntity(world); 
-			gs.addEntity(shuttle);	
+			gs.addEntity(shuttle);
+			gs.addEntity(menu);
 			
 			this.set_state("menu");
 		

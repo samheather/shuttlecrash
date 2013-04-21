@@ -8,7 +8,7 @@ function Shuttle(gs) {
 	var groundDrag = 0.2;
 	var attackAngleDescent = -2;
 	
-	//variables
+	//Shuttle variables
 	var length = 65;
 	var wingSpan = 30;
 	var airBrakeOnDecent = 10;
@@ -35,6 +35,58 @@ function Shuttle(gs) {
 		this.world = world;
 	}
 	
+	// For Menu
+	
+	this.setLength = function(lengthToSet) {
+		length = lengthToSet;
+	}
+	
+	this.getLength = function() {
+		return length;
+	}
+	
+	//
+	
+	this.setWingSpan = function(wingSpanToSet) {
+		wingSpan = wingSpanToSet;
+	}
+	
+	this.getWingSpan = function() {
+		return wingSpan;
+	}
+	
+	//
+	
+	this.setAirBrakeOnDecent = function(airBrakeOnDecentToSet) {
+		airBrakeOnDecent = airBrakeOnDecentToSet;
+	}
+	
+	this.getAirBrakeOnDecent = function() {
+		return airBrakeOnDecent;
+	}
+	
+	//
+	
+	this.setAttackAngle = function(attackAngleToSet) {
+		attackAngle = attackAngleToSet;
+	}
+	
+	this.getAttackAngle = function() {
+		return attackAngle;
+	}
+	
+	//
+	
+	this.setSurfaceArea = function(surfaceAreaToSet) {
+		surfaceArea = surfaceAreaToSet;
+	}
+	
+	this.getSurfaceArea = function() {
+		return surfaceArea;
+	}
+	
+	// End Menu
+		
 	
 	this.init = function () {
 		sprites.action("stopped");

@@ -74,17 +74,17 @@ function World(gs) {
 	
 	/* mouse/finger detection */
 
-	this.pointerDown = function() {
-		if (gs.pointerPosition[0] < gs.width / 2) {
-			shuttle.keyDown_37();
-		} else {
-			shuttle.keyDown_39();
-		}
-	}
-	
-	this.pointerUp = function() {
-		shuttle.keyUp_37();
-	}
+// 	this.pointerDown = function() {
+// 		if (gs.pointerPosition[0] < gs.width / 2) {
+// 			shuttle.keyDown_37();
+// 		} else {
+// 			shuttle.keyDown_39();
+// 		}
+// 	}
+// 	
+// 	this.pointerUp = function() {
+// 		shuttle.keyUp_37();
+// 	}
 	
 	this.pointerBox = function() {
 		return [0, 0, gs.width, gs.height];
